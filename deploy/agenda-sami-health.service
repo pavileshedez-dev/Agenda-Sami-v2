@@ -1,0 +1,17 @@
+[Unit]
+Description=Agenda Sami local healthcheck
+After=agenda-sami.service
+Requires=agenda-sami.service
+
+[Service]
+Type=oneshot
+User=agenda-sami
+Group=agenda-sami
+WorkingDirectory=/opt/agenda-sami/current
+EnvironmentFile=/etc/agenda-sami/agenda-sami.env
+Environment=HEALTH_BASE_URL=http://127.0.0.1:3001
+ExecStart=/usr/bin/node /opt/agenda-sami/current/scripts/healthcheck.mjs
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true

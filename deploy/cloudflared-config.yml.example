@@ -1,0 +1,15 @@
+# Ejemplo de configuración de Cloudflare Tunnel.
+# Copiar a /etc/cloudflared/config.yml y sustituir los marcadores.
+# No guardar credenciales en este repositorio ni en el paquete.
+
+tunnel: REEMPLAZAR_TUNNEL_UUID
+credentials-file: /etc/cloudflared/REEMPLAZAR_TUNNEL_UUID.json
+
+ingress:
+  - hostname: agenda.example.com
+    service: http://127.0.0.1:3001
+    originRequest:
+      connectTimeout: 30s
+      noHappyEyeballs: false
+
+  - service: http_status:404

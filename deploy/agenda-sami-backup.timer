@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Agenda Sami backup timer
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 Europe/Madrid
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target

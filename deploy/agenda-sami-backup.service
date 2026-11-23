@@ -1,0 +1,20 @@
+[Unit]
+Description=Agenda Sami daily verified SQLite backup
+After=agenda-sami.service
+Requires=agenda-sami.service
+
+[Service]
+Type=oneshot
+User=agenda-sami
+Group=agenda-sami
+WorkingDirectory=/opt/agenda-sami/current
+EnvironmentFile=/etc/agenda-sami/agenda-sami.env
+ExecStart=/usr/bin/bash /opt/agenda-sami/current/scripts/backup-daily.sh
+Nice=10
+IOSchedulingClass=best-effort
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/agenda-sami
+UMask=0077
