@@ -1,0 +1,250 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Agenda Sami — Sistema Visual Unificado ("Claridad Editorial · Calma Operativa")
+   Una sola capa de tokens, sin !important ni colisiones de especificidad.
+   ========================================================================== */
+:root {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --bg-canvas: #f7f7f5;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f1ee;
+  --border-subtle: #e6e6e2;
+  --border-strong: #d1d1cb;
+  --ink-primary: #18181b;
+  --ink-secondary: #52525b;
+  --ink-muted: #71717a;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: #eff6ff;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  scrollbar-width: thin;
+  scrollbar-color: #d1d1cb transparent;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
+    background-color: var(--bg-canvas);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-canvas);
+    color: var(--ink-primary);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--ink-primary);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgba(37, 99, 235, 0.14);
+    color: var(--ink-primary);
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ─── Skip to content link (WCAG 2.4.1) ─── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--ink-primary);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(24, 24, 27, 0.18);
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─── Componentes base unificados ─── */
+@layer components {
+  .glass-card,
+  .surface-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+  }
+
+  .glass-card-hover {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+    transition: border-color 160ms var(--ease-standard), box-shadow 160ms var(--ease-standard), transform 160ms var(--ease-standard);
+  }
+  .glass-card-hover:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 12px rgba(24, 24, 27, 0.07);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-medium rounded-xl
+           transition-colors duration-150 hover:bg-primary-700 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+    min-height: 40px;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-zinc-700 text-sm font-medium rounded-xl border border-surface-200
+           transition-colors duration-150 hover:bg-surface-100 hover:border-surface-300 active:scale-[0.98] disabled:opacity-50;
+    min-height: 40px;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-2 text-zinc-600 text-sm font-medium rounded-xl
+           transition-colors duration-150 hover:bg-surface-100 hover:text-zinc-900 active:scale-[0.98] disabled:opacity-50;
+    min-height: 36px;
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.5625rem 0.875rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    color: var(--ink-primary);
+    /* Evita auto-zoom en iOS Safari (Modern Web Guidance: forms) */
+    font-size: max(1rem, 1em);
+    line-height: 1.4;
+    transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);
+  }
+  .input-field::placeholder {
+    color: #a1a1aa;
+  }
+  .input-field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    outline: none;
+  }
+  .input-field:user-invalid {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.10);
+  }
+
+  @media (min-width: 640px) {
+    .input-field {
+      font-size: 0.9375rem;
+    }
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-medium;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .page-enter {
+    animation: pageEnter 0.22s var(--ease-standard);
+  }
+}
+
+/* ─── Diálogos nativos <dialog> (Top Layer real, sin colisiones z-index) ─── */
+dialog.app-dialog {
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface);
+  color: var(--ink-primary);
+  box-shadow: 0 20px 50px rgba(24, 24, 27, 0.18);
+  width: min(calc(100vw - 2rem), var(--dialog-max-w, 32rem));
+  max-height: min(90dvh, 760px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+dialog.app-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  animation: dialogIn 180ms var(--ease-standard);
+}
+
+dialog.app-dialog::backdrop {
+  background: rgba(24, 24, 27, 0.42);
+  backdrop-filter: blur(2px);
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatHeart {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-24px) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) scale(0.6);
+  }
+}
+
+.animate-float-heart {
+  animation: floatHeart 1.6s var(--ease-standard) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.safe-area-bottom {
+  padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0px));
+}

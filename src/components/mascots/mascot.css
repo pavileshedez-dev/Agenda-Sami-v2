@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Compañeros pixel art (Pibble y Capilámpara): renderizado nítido 1:1/entero,
+   animación real fotograma a fotograma, barra inferior ocultable y rincón vivo.
+   ========================================================================== */
+
+.mascot-pixel,
+.mascot-art__img--pixel {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.mascot-art {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mascot-art__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mascot-art__hit {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mascot-art__hit:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 4px;
+}
+
+.mascot-art__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgba(56, 36, 28, 0.14));
+}
+
+/* ── Brillo cálido ambiental de la mandarina de Capilámpara ── */
+.mascot-art__lamp-halo {
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  z-index: 1;
+  width: 72%;
+  height: 72%;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 211, 78, 0.32) 0%,
+    rgba(250, 159, 39, 0.12) 45%,
+    transparent 74%
+  );
+  pointer-events: none;
+}
+
+/* ── Bocadillo de diálogo limpio ── */
+.mascot-speech-bubble {
+  position: absolute;
+  top: -48px;
+  left: 50%;
+  z-index: 20;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(240px, 84vw);
+  padding: 6px 12px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(56, 36, 28, 0.22);
+  background: #ffffff;
+  box-shadow: 0 6px 16px rgba(56, 36, 28, 0.12);
+  color: #38241c;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  pointer-events: none;
+  animation: mascotBubbleIn 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mascot-speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-right: 1.5px solid rgba(56, 36, 28, 0.22);
+  border-bottom: 1.5px solid rgba(56, 36, 28, 0.22);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.mascot-speech-bubble--pibble {
+  background: #fdfaf5;
+}
+.mascot-speech-bubble--pibble::after {
+  background: #fdfaf5;
+}
+
+.mascot-speech-bubble--capilampara {
+  background: #fffcf3;
+}
+.mascot-speech-bubble--capilampara::after {
+  background: #fffcf3;
+}
+
+@keyframes mascotBubbleIn {
+  0% { opacity: 0; transform: translate(-50%, 5px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ── Partículas pixeladas al acariciar ── */
+.mascot-art__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.mascot-art__particle {
+  position: absolute;
+  top: 24%;
+  font-size: 16px;
+  line-height: 1;
+  color: #e11d48;
+  opacity: 0;
+  animation: mascotParticleRise 1.2s ease-out forwards;
+}
+
+@keyframes mascotParticleRise {
+  0% { opacity: 0; transform: translate(0, 10px); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--particle-drift, 0px), -48px); }
+}
+
+.mascot-avatar {
+  flex: none;
+}
+
+/* ── Rincón compartido vivo (Compañeros) ── */
+.mascot-habitat {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid #e6dfd5;
+  background:
+    radial-gradient(ellipse at 50% 88%, rgba(226, 210, 188, 0.45) 0%, transparent 65%),
+    linear-gradient(180deg, #fffdf9 0%, #f8f2e7 68%, #ede3d2 68%, #f4ede0 100%);
+  overflow: visible;
+}
+
+.mascot-habitat--warm {
+  background:
+    radial-gradient(circle at 65% 32%, rgba(255, 211, 78, 0.28) 0%, transparent 48%),
+    radial-gradient(ellipse at 50% 88%, rgba(226, 210, 188, 0.45) 0%, transparent 65%),
+    linear-gradient(180deg, #fffaf0 0%, #faefd8 68%, #ece0ca 68%, #f3e8d4 100%);
+}
+
+/* ── Barra inferior interactiva y ocultable (MascotStage) ── */
+.mascot-dock {
+  position: fixed;
+  right: 14px;
+  bottom: 70px;
+  z-index: 35;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 18px;
+  border: 1px solid #e2dbd0;
+  background: rgba(255, 253, 249, 0.94);
+  box-shadow: 0 10px 28px rgba(44, 26, 17, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+@media (min-width: 1024px) {
+  .mascot-dock {
+    right: 20px;
+    bottom: 16px;
+  }
+}
+
+.mascot-dock__actor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.mascot-dock__reopen {
+  position: fixed;
+  right: 14px;
+  bottom: 72px;
+  z-index: 35;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 7px;
+  border-radius: 9999px;
+  border: 1px solid #e2dbd0;
+  background: #fffdf9;
+  color: #38241c;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(44, 26, 17, 0.12);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.mascot-dock__reopen:hover {
+  background: #f9f2e3;
+  border-color: #d6c8b6;
+}
+
+@media (min-width: 1024px) {
+  .mascot-dock__reopen {
+    right: 20px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-speech-bubble,
+  .mascot-art__particle {
+    animation: none !important;
+  }
+}

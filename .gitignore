@@ -1,0 +1,75 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Production build artifacts
+dist/
+dist-ssr/
+.build_src/
+
+# Cache & temporary files/directories
+.cache/
+.wrangler/
+.eslintcache
+.temp/
+.tmp/
+*.tmp
+*.temp
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local environment & secrets
+.env
+.env.*
+*.env
+!.env.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+
+# Real SQLite databases & private runtime data
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.db
+*.db-wal
+*.db-shm
+server/data/*
+!server/data/.gitkeep
+
+# Backups
+backups/
+backups_auto/
+server/data/backups_auto/
+.backup*
+*.bak
+*.backup
+*.backup.*
+
+# Scratch and intermediate scripts
+scratch_*
+sp*.cjs
+
+# Editor & OS files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
