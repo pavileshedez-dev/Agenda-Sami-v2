@@ -9,6 +9,7 @@ dist-ssr/
 .build_src/
 
 # Cache & temporary files/directories
+.netlify/
 .cache/
 .wrangler/
 .eslintcache

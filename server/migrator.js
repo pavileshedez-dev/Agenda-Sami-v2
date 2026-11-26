@@ -7,7 +7,21 @@ import { getEnvInt } from './env.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DEFAULT_MIGRATIONS_DIR = path.join(__dirname, 'migrations');
+
+function resolveDefaultMigrationsDir() {
+  const candidates = [
+    path.join(__dirname, 'migrations'),
+    path.join(process.cwd(), 'server', 'migrations'),
+    path.resolve(__dirname, '..', 'server', 'migrations'),
+    path.resolve(__dirname, '..', '..', 'server', 'migrations'),
+  ];
+  for (const dir of candidates) {
+    if (fs.existsSync(dir)) return dir;
+  }
+  return path.join(__dirname, 'migrations');
+}
+
+const DEFAULT_MIGRATIONS_DIR = resolveDefaultMigrationsDir();
 
 function splitSqlStatements(sql) {
   const statements = [];
