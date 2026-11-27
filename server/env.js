@@ -2,9 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const PROJECT_ROOT = path.resolve(__dirname, '..');
+const MODULE_FILE = fileURLToPath(import.meta.url);
+const MODULE_DIR = path.dirname(MODULE_FILE);
+const PROJECT_ROOT = path.resolve(MODULE_DIR, '..');
 
 let loaded = false;
 

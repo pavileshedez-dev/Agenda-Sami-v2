@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import {
   Sun,
   CalendarDays,
@@ -13,9 +13,11 @@ import {
   X,
   Wifi,
   WifiOff,
+  LogOut,
   MoreHorizontal,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
 import MascotStage from './mascots/MascotStage'
 
 const navGroups = [
@@ -67,9 +69,17 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isOnline, setIsOnline] = useState(() => (typeof navigator !== 'undefined' ? navigator.onLine : true))
   const [reconnectedNotice, setReconnectedNotice] = useState(false)
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const location = useLocation()
 
   const isOverflowActive = mobileOverflowPaths.some((p) => location.pathname.startsWith(p))
+
+  async function handleLogout() {
+    setSidebarOpen(false)
+    await logout()
+    navigate('/login', { replace: true })
+  }
 
   useEffect(() => {
     function handleOnline() {
@@ -199,6 +209,18 @@ export default function Layout() {
             </div>
           ))}
         </nav>
+
+        {/* Pie del sidebar */}
+        <div className="px-2 pt-3 mt-3 border-t border-surface-200 space-y-2">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-zinc-500 hover:bg-rose-50 hover:text-rose-700 transition-colors min-h-[38px]"
+          >
+            <LogOut size={14} aria-hidden="true" />
+            <span>Cerrar sesión{user?.username ? ` (${user.username})` : ''}</span>
+          </button>
+        </div>
       </aside>
 
       {/* ── Contenido principal ── */}
