@@ -14,9 +14,9 @@ import { handleSemanaRoutes } from './routes/semana.js';
 import { handleIaRoutes } from './routes/ia.js';
 import { handleBackupRoutes } from './routes/backup.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const PROJECT_ROOT = path.join(__dirname, '..');
+const MODULE_FILE = fileURLToPath(import.meta.url);
+const MODULE_DIR = path.dirname(MODULE_FILE);
+const PROJECT_ROOT = path.join(MODULE_DIR, '..');
 const DIST_DIR = path.join(PROJECT_ROOT, 'dist');
 
 // Carga determinista de .env si existe (sin sobrescribir variables ya presentes en process.env)
@@ -448,7 +448,7 @@ export function attachGracefulShutdown(serverInstance) {
 }
 
 // Solo arrancar automáticamente cuando este módulo es el entrypoint directo
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename)) {
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(MODULE_FILE)) {
   process.on('unhandledRejection', (reason) => {
     console.error('[SERVER] UnhandledRejection:', sanitizeServerLogError(reason));
   });

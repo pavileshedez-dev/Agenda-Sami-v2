@@ -5,20 +5,20 @@ import { DatabaseSync } from 'node:sqlite';
 import { fileURLToPath } from 'node:url';
 import { getEnvInt } from './env.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const MODULE_FILE = fileURLToPath(import.meta.url);
+const MODULE_DIR = path.dirname(MODULE_FILE);
 
 function resolveDefaultMigrationsDir() {
   const candidates = [
-    path.join(__dirname, 'migrations'),
+    path.join(MODULE_DIR, 'migrations'),
     path.join(process.cwd(), 'server', 'migrations'),
-    path.resolve(__dirname, '..', 'server', 'migrations'),
-    path.resolve(__dirname, '..', '..', 'server', 'migrations'),
+    path.resolve(MODULE_DIR, '..', 'server', 'migrations'),
+    path.resolve(MODULE_DIR, '..', '..', 'server', 'migrations'),
   ];
   for (const dir of candidates) {
     if (fs.existsSync(dir)) return dir;
   }
-  return path.join(__dirname, 'migrations');
+  return path.join(MODULE_DIR, 'migrations');
 }
 
 const DEFAULT_MIGRATIONS_DIR = resolveDefaultMigrationsDir();

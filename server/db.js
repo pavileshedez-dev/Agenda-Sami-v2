@@ -7,10 +7,10 @@ import { fileURLToPath } from 'node:url';
 import { runMigrations, getExpectedSchemaVersion } from './migrator.js';
 import { getEnvInt } from './env.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const MODULE_FILE = fileURLToPath(import.meta.url);
+const MODULE_DIR = path.dirname(MODULE_FILE);
 
-const DEFAULT_DATA_DIR = path.join(__dirname, 'data');
+const DEFAULT_DATA_DIR = path.join(MODULE_DIR, 'data');
 
 let currentDb = null;
 let currentDbPath = null;

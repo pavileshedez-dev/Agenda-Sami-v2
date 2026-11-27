@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import ErrorBoundary from './components/ErrorBoundary'
 import { MascotProvider } from './components/mascots/MascotProvider'
 import Layout from './components/Layout'
+import Login from './pages/Login'
 
 // Code-splitting por ruta para reducir el bundle inicial
 const Hoy = lazy(() => import('./pages/Hoy'))
@@ -28,12 +29,13 @@ function RouteFallback() {
 }
 
 function RequireAuth({ children }) {
-  const { loading, error, refreshSession } = useAuth()
+  const { loading, authenticated, error, refreshSession } = useAuth()
+  const location = useLocation()
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-surface-50 p-6">
-        <p className="text-sm text-zinc-500" role="status">Cargando Agenda Sami…</p>
+        <p className="text-sm text-zinc-500" role="status">Cargando sesión…</p>
       </div>
     )
   }
@@ -52,6 +54,10 @@ function RequireAuth({ children }) {
     )
   }
 
+  if (!authenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
+
   return children
 }
 
@@ -61,7 +67,7 @@ export default function App() {
       <AuthProvider>
         <Suspense fallback={<RouteFallback />}>
           <Routes>
-            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/login" element={<Login />} />
             <Route
               element={
                 <RequireAuth>

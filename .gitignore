@@ -18,6 +18,10 @@ dist-ssr/
 *.tmp
 *.temp
 
+# Playwright artifacts
+tests/e2e/test-results/
+tests/e2e/playwright-report/
+
 # Logs
 logs/
 *.log
